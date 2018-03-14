@@ -561,7 +561,7 @@ set @resources='
     <Value>The username is not valid</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.ValidateUsernameEnabled">
-    <Value>Validating a username is enabled</Value>
+    <Value>Username validating is enabled</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.ValidateUsernameEnabled.Hint">
     <Value>Check to enable validating a username (when registering or changing in "My Account")</Value>
@@ -576,7 +576,7 @@ set @resources='
     <Value>Usernames validation rule</Value>
   </LocaleResource>  
   <LocaleResource Name="Admin.Configuration.Settings.CustomerUser.UsernameValidationRule.Hint">
-    <Value>Set the rule for usernames. You can specify a list of allowed characters for use in names, or specify a regular expression, in the latter case do not forget to set the "Use regex for validating a username" setting</Value>
+    <Value>Set the rule for usernames. You can specify a list of allowed characters for using in names, or specify a regular expression, in the latter case do not forget to set the "Use regex for validating a username" setting</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.CustomerSettings.RegexValidationRule.Error">
     <Value>The regular expression for validating username is wrong</Value>
@@ -1123,4 +1123,28 @@ GO
 UPDATE [Setting] 
 SET [Name] = N'adminareasettings.useisodateformatinjsonresult' 
 WHERE [Name] = N'adminareasettings.useisodatetimeconverterinjson'
+GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'customersettings.validateusernameenabled')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'customersettings.validateusernameenabled', N'false', 0)
+END
+GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'customersettings.validateusernameuseregex')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'customersettings.validateusernameuseregex', N'false', 0)
+END
+GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'customersettings.usernamevalidationrule')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'customersettings.usernamevalidationrule', N'', 0)
+END
 GO
